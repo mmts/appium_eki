@@ -1,15 +1,16 @@
 require 'rubygems'
 require 'appium_lib'
 
-APP_PATH = '/Users/admin/Documents/Appium/Trial/Newsloop_APPs/Newsloop.app'
+#APP_PATH = '/Users/ahmadfmudzaki/Downloads/1442782901_app-staging-debug-040.apk'
 
 desired_caps = {
   caps:       {
   platformName:     'Android',
   platformVersion:  '5.1',
   deviceName:       '4df1fe711a3d5f99',
-  appPackage:     'com.singtel.aurora.test',
-  appActivity:    'com.singtel.aurora.test.SplashActivity',
+  #app:           APP_PATH,
+  appPackage:     'com.tripple.tripple',
+  appActivity:    'com.tripple.tripple.SplashActivity',
 
   },
   appium_lib: {
@@ -28,41 +29,21 @@ wait = Selenium::WebDriver::Wait.new(:timeout => 15)
 #wait.until{Appium.find_element(:name, "Allow")}
 
 #testing nyari pake xpath
-wait.until{Appium.find_element(:xpath, "//UIAApplication[1]/UIAWindow[6]/UIAAlert[1]/UIACollectionView[1]/UIACollectionCell[1]")}
 
-#klik don't allow button
-v1 = ARGV[0]
-  if v1 == "Allow"
-    find_element(:xpath, "//UIAApplication[1]/UIAWindow[6]/UIAAlert[1]/UIACollectionView[1]/UIACollectionCell[2]").click
-    puts "ini Allow"  
-  else
-    find_element(:xpath, "//UIAApplication[1]/UIAWindow[6]/UIAAlert[1]/UIACollectionView[1]/UIACollectionCell[1]").click
-    puts "ini don't allow"
-  end
+#waiting for login with fb button then click on it
+wait.until{Appium.find_element(:name, "Log in with Facebook").click}
 
-#scenario can open dashboard
-wait.until{Appium.find_element(:name, "bt drawer")}
-find_element(:name, "bt drawer").click
+# Find every text field
+elements	= textfields
 
-#open settings page
-wait.until{Appium.find_element(:name, "icon gear")}
-find_element(:name, "icon gear").click
+#values for text
+values		= ["eki2359ula@gmail.com", "sekolah4n"]
 
-#click got it
-wait.until{Appium.find_element(:xpath, "//UIAApplication[1]/UIAWindow[1]/UIAButton[4]")}
-find_element(:xpath, "//UIAApplication[1]/UIAWindow[1]/UIAButton[4]").click
+#fill in textbox
+elements.each_with_index do |element, index|
+	element.type values[index]
+end
 
-#open Country selection
-wait.until{Appium.find_element(:name, "Country Selection")}
-find_element(:name, "Country Selection").click
-
-#change flag
-nation = ARGV[1]
-wait.until{Appium.find_element(:name, "#{nation}")}
-find_element(:name, "#{nation}").click
-
-#wait text changes
-wait { text "Categories/sources changed for #{nation}"}
-puts "berhasil"
+sleep 5
 
 driver_quit
