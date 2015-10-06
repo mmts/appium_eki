@@ -10,7 +10,7 @@ desired_caps = {
   deviceName:       '4df1fe711a3d5f99',
   #app:           APP_PATH,
   appPackage:     'com.tripple.tripple',
-  appActivity:    'com.tripple.tripple.SplashActivity',
+  #appActivity:    'com.tripple.tripple.SplashActivity',
 
   },
   appium_lib: {
@@ -28,10 +28,12 @@ wait = Selenium::WebDriver::Wait.new(:timeout => 15)
 
 #wait.until{Appium.find_element(:name, "Allow")}
 
-#testing nyari pake xpath
-
 #waiting for login with fb button then click on it
-wait.until{Appium.find_element(:name, "Log in with Facebook").click}
+wait.until{Appium.find_element(:name, "Log in with Facebook")}
+Appium.find_element(:name, "Log in with Facebook").click
+
+#wait till button appears
+wait.until{button(1)}
 
 # Find every text field
 elements	= textfields
@@ -44,6 +46,15 @@ elements.each_with_index do |element, index|
 	element.type values[index]
 end
 
-sleep 5
+#click masuk
+button(1).click
+
+#wait for button
+#buttonoke = find_elements :uiautomator, 'new UiSelector().description("OK")'
+buttonoke = Appium.find_element(:uiautomator, 'new UiSelector().description("OK")').click
+wait.until{buttonoke}
+puts "akhirnya kepijet"
+
+sleep 30
 
 driver_quit
