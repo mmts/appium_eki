@@ -48,23 +48,19 @@ end
 
 #click masuk
 button(1).click
-sleep 5
-
-#wait for button then click ok button
-buttonoke = Appium.find_element(:uiautomator, 'new UiSelector().description("OK")').click
-wait.until{buttonoke}
-
+sleep 3
+#wait for button
+#buttonoke = find_elements :uiautomator, 'new UiSelector().description("OK")'
+buttonoke = Appium.find_element(:uiautomator, 'new UiSelector().description("OK")')
+buttonoke.click
 puts "akhirnya kepijet"
 
-#wait until overlay comes
-wait.until{Appium.find_element(:id, "com.tripple.tripple:id/iv_overlay")}
-sleep 2
+sleep 15
 
 #swipe overlay
 (0..2).each do |i|
    swipe :start_x => 583, :start_y => 720, :end_x => 10, :end_y => 720, :touchCount => 1, :duration => 400
 end
 
-
-
+sleep 5 
 driver_quit
